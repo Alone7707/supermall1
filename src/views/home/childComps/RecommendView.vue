@@ -33,7 +33,6 @@
   .recommends-item {
     flex: 1;
   }
-
   .recommend img {
     width: 80%;
     margin-bottom: 5px;
