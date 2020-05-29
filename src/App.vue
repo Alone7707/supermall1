@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view class="bottom"></router-view>
     <main-tab-bar/>
   </div>
 </template>
@@ -18,4 +18,7 @@ export default {
 
 <style>
   @import "assets/css/base.css";
+  .bottom {
+    padding-bottom: 49px;
+  }
 </style>
