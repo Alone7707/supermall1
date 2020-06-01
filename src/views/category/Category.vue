@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper">
     <ul class="content">
+      <button @click="btnClick">按钮</button>
       <li>分类列表1</li>
       <li>分类列表2</li>
       <li>分类列表3</li>
@@ -119,7 +120,22 @@
 
     },
     mounted() {
-      this.scroll = new BScroll('.wrapper')
+      this.scroll = new BScroll(document.querySelector('.wrapper'), {
+        probeType: 2,
+        pullUpLoad: true,
+
+      })
+      this.scroll.on('scroll', (position) => {
+        console.log(position);
+      })
+      this.scroll.on('pullingUp', () => {
+        console.log('上拉加载动作');
+      })
+    },
+    methods: {
+      btnClick() {
+        console.log('btnClick');
+      }
     }
   }
 </script>
@@ -128,7 +144,7 @@
   .wrapper {
     height: 150px;
     background-color: red;
-    /*overflow: hidden;*/
+    overflow: hidden;
     /*overflow-y: scroll;*/
   }
 </style>
