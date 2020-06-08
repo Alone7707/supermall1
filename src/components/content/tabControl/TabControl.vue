@@ -42,7 +42,7 @@
     background-color: #fff;
   }
   .tab-control-item {
-    flex: 1;
+    flex: 9;
   }
   .tab-control-item span {
     padding: 5px;

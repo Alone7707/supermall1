@@ -1,13 +1,13 @@
 <template>
-    <div class="slide">
-      <slot></slot>
-    </div>
+  <div class="slide">
+    <slot></slot>
+  </div>
 </template>
 
 <script>
-	export default {
-		name: "Slide"
-	}
+  export default {
+    name: "Slide"
+  }
 </script>
 
 <style scoped>
