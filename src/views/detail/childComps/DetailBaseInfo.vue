@@ -4,7 +4,7 @@
     <div class="info-price">
       <span class="n-price">{{goods.newPrice}}</span>
       <span class="o-price">{{goods.oldPrice}}</span>
-      <span v-if="goods.discount" class="discount">{{goods.discount}}</span>
+      <span v-if="goods.discountDesc" class="discount">{{goods.discountDesc}}</span>
     </div>
     <div class="info-other">
       <span>{{goods.columns[0]}}</span>
@@ -59,6 +59,7 @@
   .info-price .discount {
     font-size: 12px;
     padding: 2px 5px;
+    border-radius: 15px;
     color: #fff;
     background-color: var(--color-high-text);
     border-right: 8px;
