@@ -4,14 +4,17 @@
     <tab-control :titles="['流行','新款','精选']"
                  @tabClick="tabClick"
                  ref="tabControl1"
-                 class="tab-control" v-show="isTabFixed"/>
+                 class="tab-control"
+                 v-show="isTabFixed"/>
     <scroll class="content"
             ref="scroll"
             :probe-type="3"
             @scroll="contentScroll"
             :pull-up-load="true"
             @pullingUp="loadMore">
-      <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad" ref="hSwiper"/>
+      <home-swiper :banners="banners"
+                   @swiperImageLoad="swiperImageLoad"
+                   ref="hSwiper"/>
       <recommend-view :recommends="recommends"/>
       <feature-view/>
       <tab-control :titles="['流行','新款','精选']"
@@ -63,7 +66,8 @@
         isShowBackTop: false,
         tabOffsetTop: 0,
         isTabFixed: false,
-        saveY: 0
+        saveY: 0,
+        currentIndex: 0
       }
     },
     computed:{
@@ -75,7 +79,7 @@
       console.log('home destroyed');
     },
     activated() {
-      this.$refs.scroll.scrollTo(0, this.saveY, 0)
+      this.$refs.scroll.scrollTo(0, this.saveY)
       this.$refs.scroll.refresh()
     },
     deactivated() {
@@ -121,8 +125,8 @@
             this.currentType = 'sell'
             break
         }
-        // this.$refs.tabControl1.currentIndex = index;
-        // this.$refs.tabControl2.currentIndex = index;
+        this.$refs.tabControl1.currentIndex = index;
+        this.$refs.tabControl2.currentIndex = index;
       },
       backClick() {
         this.$refs.scroll.scrollTo(0, 0)
@@ -144,6 +148,7 @@
        */
       getHomeMultidata() {
         getHomeMultidata().then(res => {
+          console.log(res);
           this.banners = res.data.banner.list;
           this.recommends = res.data.recommend.list;
         })

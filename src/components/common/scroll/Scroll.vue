@@ -23,7 +23,7 @@
     },
     data() {
       return {
-        scroll: null
+        _scroll: null
       }
     },
     mounted() {
