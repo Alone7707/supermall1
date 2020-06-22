@@ -10,6 +10,8 @@
       <detail-param-info :param-info="paramInfo" ref="params"/>
       <goods-list :goods="recommends" ref="recommend"/>
     </scroll>
+    <back-top @click.native="backClick" v-show="isShowBackTop"/>
+    <detail-bottom-bar @addCart="addToCart" />
   </div>
 </template>
 
@@ -21,9 +23,11 @@
   import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
   import DetailParamInfo from "./childComps/DetailParamInfo";
   import DetailCommentInfo from "./childComps/DetailCommentInfo";
+  import DetailBottomBar from "./childComps/DetailBottomBar";
 
   import Scroll from "components/common/scroll/Scroll";
   import GoodsList from "components/content/goods/GoodsList";
+  import BackTop from "components/content/backTop/BackTop";
 
   import {getDetail, Goods, Shop, GoodsParam} from "network/detail";
   import {getRecommend} from "network/detail";
@@ -44,7 +48,8 @@
         recommends: [],
         themeTopYs: [],
         getThemeTopY: null,
-        cruuentIndex: 0
+        cruuentIndex: 0,
+        isShowBackTop: false,
       }
     },
     mixins: [itemListenerMixin],
@@ -56,8 +61,10 @@
       DetailGoodsInfo,
       DetailParamInfo,
       DetailCommentInfo,
+      DetailBottomBar,
       Scroll,
-      GoodsList
+      GoodsList,
+      BackTop
     },
     created() {
       // 1.保存传入的iid
@@ -116,7 +123,7 @@
         this.themeTopYs.push(this.$refs.params.$el.offsetTop)
         this.themeTopYs.push(this.$refs.recommend.$el.offsetTop)
         this.themeTopYs.push(Number.MAX_VALUE)
-        console.log(this.themeTopYs);
+        // console.log(this.themeTopYs);
       }, 500)
     },
     mounted() {
@@ -134,6 +141,7 @@
       this.$bus.$on('itemImgLoad', this.itemImgListener)
     },
     methods: {
+
       imageLoad() {
         // this.$refs.scroll.refresh()
         this.newRefresh()
@@ -154,6 +162,7 @@
           //   this.$refs.nav.currentIndex = this.currentIndex
           // }
         }
+        this.isShowBackTop = (-position.y) > 1000
       },
       detailImageLoad() {
         this.newRefresh()
@@ -161,6 +170,23 @@
       },
       titleClick(index) {
         this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 300)
+      },
+      backClick() {
+        this.$refs.scroll.scrollTo(0, 0)
+      },
+      addToCart() {
+        // 1.获取购物车需要展示得信息
+        const product = {}
+        product.image = this.topImages[0]
+        product.title = this.goods.title
+        product.desc = this.goods.desc
+        product.price = this.goods.realPrice
+        product.iid = this.iid
+
+        // 2.讲商品添加到购物车里
+        // this.$store.cartList.push(product)
+        // this.$store.commit('addCart', product)
+        this.$store.dispatch('addCart', product)
       }
     }
   }
@@ -176,13 +202,17 @@
   .content {
     position: absolute;
     top: 44px;
-    bottom: 60px;
+    bottom: 49px;
     left: 0;
     right: 0;
+    overflow: hidden;
   }
   .detail-nav {
-    position: relative;
-    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
     background-color: #fff;
   }
 </style>
